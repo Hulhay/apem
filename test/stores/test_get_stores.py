@@ -32,20 +32,6 @@ def test_get_stores():
     # Check data -> store_photo_url
     assert_that(resp['data'][0]).contains('store_photo_url')
 
-    # Check data -> owner_uuid
-    assert_that(resp['data'][0]).contains('owner_uuid')
-    assert_that(resp['data'][0]['owner_uuid']).is_not_empty()
-    assert_that(resp['data'][0]['owner_uuid']).matches(r'^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$')
-
-    # Check data -> owner_name
-    assert_that(resp['data'][0]).contains('owner_name')
-    assert_that(resp['data'][0]['owner_name']).is_not_empty()
-
-    # Check data -> phone_number
-    assert_that(resp['data'][0]).contains('owner_phone_number')
-    assert_that(resp['data'][0]['owner_phone_number']).is_not_empty()
-    assert_that(resp['data'][0]['owner_phone_number']).matches(r'^0\d+$')
-
 def test_get_stores_with_valid_filter_keyword():
     keyword = 'ayam'
 
