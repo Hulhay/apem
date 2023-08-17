@@ -1,8 +1,11 @@
 import requests as r
-from config.config import base_url
+from config.config import get_base_url
 from assertpy import assert_that
+from stores_helper import *
 
 def test_get_stores():
+    base_url = get_base_url()
+
     response = r.get(f'{base_url}/api/v1/stores')
     resp = response.json()
 
@@ -33,7 +36,8 @@ def test_get_stores():
     assert_that(resp['data'][0]).contains('store_photo_url')
 
 def test_get_stores_with_valid_filter_keyword():
-    keyword = 'ayam'
+    base_url = get_base_url()
+    keyword = get_keyword()
 
     response = r.get(f'{base_url}/api/v1/stores?keyword={keyword}')
     resp = response.json()
@@ -52,7 +56,8 @@ def test_get_stores_with_valid_filter_keyword():
     assert_that(resp['data'][0]['store_name']).contains_ignoring_case(keyword)
 
 def test_get_stores_with_valid_filter_keyword_zero_result():
-    keyword = 'ThisFilterWillBeZeroResult'
+    base_url = get_base_url()
+    keyword = get_not_found_keyword()
 
     response = r.get(f'{base_url}/api/v1/stores?keyword={keyword}')
     resp = response.json()
@@ -64,7 +69,8 @@ def test_get_stores_with_valid_filter_keyword_zero_result():
     assert_that(resp['data']).is_empty()
 
 def test_get_stores_with_invalid_filter_keyword():
-    keyword = 'in'
+    base_url = get_base_url()
+    keyword = get_invalid_keyword()
 
     response = r.get(f'{base_url}/api/v1/stores?keyword={keyword}')
     resp = response.json()
